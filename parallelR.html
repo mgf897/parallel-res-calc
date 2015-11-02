@@ -25,11 +25,11 @@
 	function calc_R(){
 		var target_R = document.getElementById("target_R");
 		var tolerance = document.getElementById("tolerance");
-		if ((target_R.value.length != 0) & (tolerance.value.length != 0)){
+		if ((target_R.value.length != 0) & (tolerance.value.length != 0) & (voltage.value.length != 0)){
 			var target_res = target_R.value;
-			var R1 = closest(target_res,parallel_resistors);
-			console.log(R1);
-			document.getElementById("results").innerHTML = "Closest R is " + R1 + " ohms";
+			var result = closest(target_res,parallel_resistors);
+			console.log(result);
+			document.getElementById("results").innerHTML = "Closest R is " + result + " ohms";
 		}
 	}
 
@@ -39,16 +39,19 @@
     }
 
   	function closest (num, arr) {
-        var curr = arr[0];
+        var curr = arr[0][0];
         var diff = Math.abs (num - curr);
+        var best = [];
         for (var val = 0; val < arr.length; val++) {
-            var newdiff = Math.abs (num - arr[0][val]);
+            var newdiff = Math.abs (num - arr[val][0]);
             if (newdiff < diff) {
                 diff = newdiff;
                 curr = arr[val];
+                best.push(arr[val])
             }
         }
-        return curr;
+        
+        return best.slice(-10);
     }
 
    
@@ -57,10 +60,14 @@
 	<link rel="stylesheet" type="text/css" href="mystyle.css">
 </head>
 <body>
-<form>
-Target R:<input type="number" id="target_R" name="target_R" onkeyup="calc_R()">
-Tolerance:<input type="number" id="tolerance" name="tolerance" onkeyup="calc_R()">
-<div id="results"></div>
-</form>
+<div id="main-container">
+	<h1>Parallel E12 Resistor Calculator</h1>
+	<form>
+	Target R:<input type="number" id="target_R" name="target_R" onkeyup="calc_R()">
+	Tolerance:<input type="number" id="tolerance" name="tolerance" onkeyup="calc_R()">
+	Voltage:<input type="number" id="voltage" name="voltage" onkeyup="calc_R()">
+	<div id="results"></div>
+	</form>
+</div>
 </body>
 </html>
