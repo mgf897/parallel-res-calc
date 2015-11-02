@@ -17,7 +17,7 @@
 	console.log(resistors);
 	for (i=0;i<resistors.length;i++){
 		for (j=0;j<resistors.length;j++){
-			parallel_resistors.push(Math.round(parallel_R(resistors[i],resistors[j])));
+			parallel_resistors.push([Math.round(parallel_R(resistors[i],resistors[j])),resistors[i],resistors[j]]);
 		}
 	}
 
@@ -42,7 +42,7 @@
         var curr = arr[0];
         var diff = Math.abs (num - curr);
         for (var val = 0; val < arr.length; val++) {
-            var newdiff = Math.abs (num - arr[val]);
+            var newdiff = Math.abs (num - arr[0][val]);
             if (newdiff < diff) {
                 diff = newdiff;
                 curr = arr[val];
@@ -54,6 +54,7 @@
    
 
 	</script>
+	<link rel="stylesheet" type="text/css" href="mystyle.css">
 </head>
 <body>
 <form>
