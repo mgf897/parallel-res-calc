@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Parallel Resistance</title>
+	<script type="text/javascript">
+
+
+	var E12 = [1.0,1.2,1.5,1.8,2.2,2.7,3.3,3.9,4.7,5.6,6.8,8.2,10.0];
+	var order = [1,10,100,1000,10000,100000,1000000,10000000];
+	var resistors = [];
+	for (i=0;i<order.length;i++){
+		for(j=0;j<E12.length;j++){
+			resistors.push(Math.round(order[i]*E12[j]));
+		}
+	}
+	parallel_resistors = [];
+	console.log(resistors);
+	for (i=0;i<resistors.length;i++){
+		for (j=0;j<resistors.length;j++){
+			parallel_resistors.push(Math.round(parallel_R(resistors[i],resistors[j])));
+		}
+	}
+
+
+	function calc_R(){
+		var target_R = document.getElementById("target_R");
+		var tolerance = document.getElementById("tolerance");
+		if ((target_R.value.length != 0) & (tolerance.value.length != 0)){
+			var target_res = target_R.value;
+			var R1 = closest(target_res,parallel_resistors);
+			console.log(R1);
+			document.getElementById("results").innerHTML = "Closest R is " + R1 + " ohms";
+		}
+	}
+
+	function parallel_R(R1,R2) {
+    	var RT = 1/((1/R1)+(1/R2));
+    	return RT;
+    }
+
+  	function closest (num, arr) {
+        var curr = arr[0];
+        var diff = Math.abs (num - curr);
+        for (var val = 0; val < arr.length; val++) {
+            var newdiff = Math.abs (num - arr[val]);
+            if (newdiff < diff) {
+                diff = newdiff;
+                curr = arr[val];
+            }
+        }
+        return curr;
+    }
+
+   
+
+	</script>
+</head>
+<body>
+<form>
+Target R:<input type="number" id="target_R" name="target_R" onkeyup="calc_R()">
+Tolerance:<input type="number" id="tolerance" name="tolerance" onkeyup="calc_R()">
+<div id="results"></div>
+</form>
+</body>
+</html>
